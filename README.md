@@ -1,5 +1,10 @@
-# workshop-event-detection
+# Workshop 2024 on Event Detection
 This repository contains the Python code to reproduce the experiments presented in *Embeddings for event detection and tracking in social media data*.
+
+## Table of contents
+- [Installation](#installation)
+- [Download data](#download-data)
+- [Preprocess data](#preprocess-data)
 
 ## Installation
 
