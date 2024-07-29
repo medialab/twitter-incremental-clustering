@@ -5,6 +5,8 @@ This repository contains the Python code to reproduce the experiments presented 
 - [Installation](#installation)
 - [Download data](#download-data)
 - [Preprocess data](#preprocess-data)
+- [Run event detection](#run-event-detection)
+- [Generate latex table](#generate-latex-table)
 
 ## Installation
 
@@ -52,3 +54,8 @@ python preprocess.py
    ```bash
     python run_detection.py --model sbert --sub-model "sentence-transformers/all-mpnet-base-v2" --lang en --dataset event2012.tsv
     ```
+
+## Generate latex table
+```bash
+python generate_table.py
+```
