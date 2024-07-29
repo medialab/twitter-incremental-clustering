@@ -17,4 +17,4 @@ sbert:
 tfidf_dataset :
   save : False
   threshold : 0.75
-  remove_mentions : True
+  remove_mentions : False

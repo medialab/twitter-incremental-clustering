@@ -8,6 +8,8 @@ import argparse
 import pandas as pd
 from sklearn.metrics.cluster import adjusted_mutual_info_score, adjusted_rand_score
 
+from utils import METRICS_FILE
+
 parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 
 parser.add_argument('--model',
@@ -42,6 +44,7 @@ parser.add_argument('--window',
 parser.add_argument('--sub-model',
                     required=False,
                     type=str,
+                    default="",
                     help="""
                     The name of HuggingFace sentence-BERT model, if the chosen 'model' is 'sbert'
                     """
@@ -95,17 +98,16 @@ def run(args: dict):
         # Write evaluation metrics to a csv file
         params.update({"AMI": ami, "ARI": ari})
         stats = pd.DataFrame(params, index=[0])
-        stats = stats[["dataset", "model", "lang", "AMI", "ARI", "threshold", "window", "batch_size", "remove_mentions", "hashtag_split"]]
+        stats = stats[["dataset", "model", "sub_model", "lang", "AMI", "ARI", "threshold", "window", "batch_size", "remove_mentions", "hashtag_split"]]
         print(stats[["model", "threshold", "AMI", "ARI"]].iloc[0])
 
-        metrics_file = "ami_ari_metrics.csv"
         try:
-            results = pd.read_csv(metrics_file)
+            results = pd.read_csv(METRICS_FILE)
         except FileNotFoundError:
             results = pd.DataFrame()
         stats = pd.concat([results, stats], ignore_index=True)
-        stats.to_csv(metrics_file, index=False)
-        logging.info("Saved results to {}".format(metrics_file))
+        stats.to_csv(METRICS_FILE, index=False)
+        logging.info("Saved results to {}".format(METRICS_FILE))
 
 
 
