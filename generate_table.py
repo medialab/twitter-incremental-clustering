@@ -17,5 +17,8 @@ ami["metric"] = "AMI"
 table = pd.concat([ari, ami]).reset_index().sort_values("dataset").set_index(["dataset", "metric"])
 
 styler = table.style.to_latex(multirow_align="c")
-with open("ami_ari_metrics.tex", "w") as f:
+
+filename = METRICS_FILE.replace(".csv", ".tex")
+print("Write latex table to {}".format(filename))
+with open(filename, "w") as f:
     print(styler.replace("metric", "").replace("model", "metric"), file=f)
