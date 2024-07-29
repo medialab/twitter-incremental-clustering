@@ -37,3 +37,18 @@ We test our method on 2 datasets, **Event2012** [McMinn et al., 2013] and **Even
 ```bash
 python preprocess.py
 ```
+
+## Run event detection
+1. Run event detection on **Event2012** dataset with **tfidf** as embedding model:
+   ```bash
+   python run_detection.py --model tfidf_dataset --lang en --dataset event2012.tsv
+   ```
+2. Run event detection on **Event2018** dataset with
+   **[Sentence-CamemBERT Large](https://huggingface.co/dangvantuan/sentence-camembert-large)** (GPU required):
+    ```bash
+    python run_detection.py --model sbert --sub-model "dangvantuan/sentence-camembert-large" --lang fr --dataset event2018.tsv
+    ```
+3. Run event detection on **Event2012** dataset with **[all-mpnet-base-v2](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)** (GPU required):
+   ```bash
+    python run_detection.py --model sbert --sub-model "sentence-transformers/all-mpnet-base-v2" --lang en --dataset event2012.tsv
+    ```
