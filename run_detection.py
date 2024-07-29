@@ -59,7 +59,6 @@ def run(args: dict):
             # change standard parameters for this specific model
             for opt in options[model]:
                 params[opt] = options[model][opt]
-            print(params)
         for arg in args:
             if args[arg] is not None:
                 # params from command line overwrite options.yaml file
@@ -97,7 +96,7 @@ def run(args: dict):
         params.update({"AMI": ami, "ARI": ari})
         stats = pd.DataFrame(params, index=[0])
         stats = stats[["dataset", "model", "lang", "AMI", "ARI", "threshold", "window", "batch_size", "remove_mentions", "hashtag_split"]]
-        print(stats[["model", "AMI", "ARI"]].iloc[0])
+        print(stats[["model", "threshold", "AMI", "ARI"]].iloc[0])
 
         metrics_file = "ami_ari_metrics.csv"
         try:

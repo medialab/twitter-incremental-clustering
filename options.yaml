@@ -7,27 +7,14 @@ standard :
   save : True # save features in the form of a .npy or .npz (for sparse vectors) file
   save_results: True # save results in a .csv file
   batch_size : 8 # Nearest neighbor search is done in batch. A smaller batch will yield better results but is slower
-  lang : "fr"
-  dataset : "event2018.tsv"
-  annotation : "annotated"
   text+ : False
 
 # You may configure specific options for each model using the following fields to overwrite standard parameters
 sbert:
-  threshold:
-    - 0.4
-    - 0.45
-    - 0.50
-    - 0.55
-    - 0.6
   remove_mentions : False
   sub_model : "dangvantuan/sentence-camembert-large"
+  threshold: 0.55
 tfidf_dataset :
   save : False
-  threshold :
-    - 0.55
-    - 0.6
-    - 0.65
-    - 0.7
-    - 0.75
+  threshold : 0.75
   remove_mentions : True

@@ -29,3 +29,5 @@ df_2018[["tweet_id", "text", "created_at", "event_id"]]\
 df_2012[["tweet_id", "text", "created_at", "event_id"]]\
     .rename(columns={"tweet_id": "id", "event_id": "label"})\
     .to_csv("event2012.tsv", sep="\t", quoting=csv.QUOTE_ALL, index=False)
+
+print("Save preprocessed files to event2012.tsv and event2018.tsv")

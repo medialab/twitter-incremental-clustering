@@ -12,6 +12,8 @@ We encourage you to create a virtual environment to install Python 3.8.2. Below 
 
 ### With conda
 ```bash
+git clone https://github.com/medialab/workshop-event-detection.git
+cd workshop-event-detection
 conda create -n workshop python=3.8.2
 source activate workshop
 pip install -U pip setuptools
@@ -20,6 +22,8 @@ pip install -r requirements.txt
 
 ### With pyenv-virtualenv
 ```bash
+git clone https://github.com/medialab/workshop-event-detection.git
+cd workshop-event-detection
 pyenv virtualenv 3.8.2 workshop
 pyenv activate workshop
 pip install -U pip setuptools
