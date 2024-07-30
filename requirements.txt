@@ -1,1 +1,1 @@
-twembeddings==0.3.4
+twembeddings==0.4.0
