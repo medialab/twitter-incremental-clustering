@@ -3,6 +3,7 @@ import pandas as pd
 from utils import METRICS_FILE
 
 df = pd.read_csv(METRICS_FILE)
+df = df.drop_duplicates()
 
 df["model"] = df.model.str.replace("_dataset", "")
 df["dataset"] = df.dataset.str.replace(".tsv", "")
@@ -27,4 +28,4 @@ table_str = styler.to_latex(multirow_align="c", hrules=True, convert_css=True)
 filename = METRICS_FILE.replace(".csv", ".tex")
 print("Write latex table to {}".format(filename))
 with open(filename, "w") as f:
-    print(table_str.replace("metric", "").replace("model", "metric"), file=f)
+    print(table_str.replace("metric", "").replace("model", ""), file=f)
