@@ -22,6 +22,9 @@ styler.format(precision=2)
 styler.format_index("\\textbf{{{}}}", escape="latex", axis=0)
 styler.format_index("\\textbf{{{}}}", escape="latex", axis=1)
 
+def highlight_max(s, props=''):
+    return np.where(s == np.nanmax(s.values), props, '')
+styler.apply(highlight_max, props='font-weight: bold', axis=1)
 
 table_str = styler.to_latex(multirow_align="c", hrules=True, convert_css=True)
 
