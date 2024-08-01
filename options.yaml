@@ -16,5 +16,6 @@ sbert:
   threshold: 0.55
 tfidf_dataset :
   save : False
-  threshold : 0.75
+  threshold : 0.8
   remove_mentions : False
+  window : 12
