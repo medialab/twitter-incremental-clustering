@@ -1,22 +1,23 @@
-standard :
-# these options are applied to all embeddings
-  hashtag_split: True # split hashtags on capital letters,
-  svd : False # turn sparse tf-idf features into dense ones using Singular Value Decomposition
-  binary : True #
-  tfidf_weights: False # use tf-idf weights when averaging Word2Vec vectors
-  save : True # save features in the form of a .npy or .npz (for sparse vectors) file
-  save_results: True # save results in a .csv file
-  batch_size : 8 # Nearest neighbor search is done in batch. A smaller batch will yield better results but is slower
-  text+ : False
-
 # You may configure specific options for each model using the following fields to overwrite standard parameters
 sbert:
   sub_model : "dangvantuan/sentence-camembert-large"
   threshold: 0.55
   remove_mentions : False
   window : 24
+
 tfidf_dataset :
   save : False
   threshold : 0.8
   remove_mentions : False
   window : 12
+
+standard :
+# these options are applied to all embeddings
+  save : True # save features in the form of a .npy or .npz (for sparse vectors) file
+  save_results: True # save results in a .csv file
+  hashtag_split: True # split hashtags on capital letters,
+  batch_size : 8 # nearest neighbor search is done in batch. A smaller batch will yield better results but is slower
+  binary : True # all non zero counts are set to 1 in the matrix of token counts (used when computing tf-idf)
+  svd : False # turn sparse tf-idf features into dense ones using Singular Value Decomposition
+  tfidf_weights: False # use tf-idf weights when averaging Word2Vec vectors
+  text+ : False
