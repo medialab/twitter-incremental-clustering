@@ -1,5 +1,7 @@
 # Workshop 2024 on Event Detection
-This repository contains the Python code to reproduce the experiments presented in *Embeddings for event detection and tracking in social media data*.
+This repository contains the Python code to reproduce the experiments presented in our paper:
+
+*An Incremental Clustering Baseline for Event Detection on Twitter*.
 
 ## Table of contents
 - [Installation](#installation)
