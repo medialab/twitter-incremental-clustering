@@ -37,7 +37,6 @@ parser.add_argument('--threshold',
 
 parser.add_argument('--window',
                     required=False,
-                    default=24,
                     type=int
                     )
 

@@ -11,9 +11,10 @@ standard :
 
 # You may configure specific options for each model using the following fields to overwrite standard parameters
 sbert:
-  remove_mentions : False
   sub_model : "dangvantuan/sentence-camembert-large"
   threshold: 0.55
+  remove_mentions : False
+  window : 24
 tfidf_dataset :
   save : False
   threshold : 0.8
