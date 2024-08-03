@@ -8,6 +8,8 @@ df = df.drop_duplicates()
 
 df["model"] = df.model.str.replace("_dataset", "")
 df["model"] = df.model.str.replace("sbert", "FSD-SBERT")
+df["model"] = df.model.str.replace("HISEvent", "HE")
+df["model"] = df.model.str.replace("twembeddings", "TW")
 df["dataset"] = df.dataset.str.replace(".tsv", "")
 
 idx = df.groupby(['dataset', 'model'])['ARI'].transform('max') == df["ARI"]
@@ -28,7 +30,12 @@ def highlight_max(s, props=''):
     return np.where(s == np.nanmax(s.values), props, '')
 styler.apply(highlight_max, props='font-weight: bold', axis=1)
 
-table_str = styler.to_latex(multirow_align="c", hrules=True, convert_css=True)
+table_str = styler.to_latex(
+    multirow_align="c",
+    hrules=True,
+    column_format="ll" + "c"*(table.shape[1]),
+    convert_css=True
+    )
 
 filename = METRICS_FILE.replace(".csv", ".tex")
 print("Write latex table to {}".format(filename))

@@ -1,5 +1,5 @@
 dataset,model,sub_model,lang,AMI,ARI,threshold,window,batch_size,remove_mentions,hashtag_split
 event2018.tsv,HISEvent,,fr,0.66,0.44,,,,,
 event2012.tsv,HISEvent,,en,0.81,0.5,,,,,
-event2012.tsv,TW,,en,0.8174410071927943,0.39307944402278955,0.75,2368,8,False,True
-event2018.tsv,TW,,fr,0.7185186730032759,0.2501169090359836,0.7,2800,8,False,True
+event2012.tsv,twembeddings,,en,0.8174410071927943,0.3930794440227895,0.75,2368.0,8.0,False,True
+event2018.tsv,twembeddings,,fr,0.7185186730032759,0.2501169090359836,0.7,2800.0,8.0,False,True
