@@ -1,5 +1,5 @@
 from twembeddings import build_matrix
-from twembeddings import ClusteringAlgo, ClusteringAlgoSparse
+from twembeddings import ClusteringAlgo
 
 import csv
 import yaml
@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('--model',
                     nargs='+',
                     required=True,
-                    choices=["sbert", "tfidf_dataset"],
+                    choices=["sbert"],
                     help="""
                     One or several text embeddings
                     """
@@ -45,7 +45,7 @@ parser.add_argument('--sub-model',
                     type=str,
                     default="",
                     help="""
-                    The name of HuggingFace sentence-BERT model, if the chosen 'model' is 'sbert'
+                    The name of HuggingFace sentence-BERT model
                     """
                     )
 
@@ -73,12 +73,8 @@ def run(args: dict):
 
         # todo: improve window computation
         params["window"] = int(data.groupby("date").size().mean()*params["window"]/24// params["batch_size"] * params["batch_size"])
-        if params["model"].startswith("tfidf"):
-            clustering = ClusteringAlgoSparse(threshold=float(params["threshold"]), window_size=params["window"],
-                                              batch_size=params["batch_size"])
-        else:
-            clustering = ClusteringAlgo(threshold=float(params["threshold"]), window_size=params["window"],
-                                              batch_size=params["batch_size"])
+
+        clustering = ClusteringAlgo(threshold=float(params["threshold"]), window_size=params["window"], batch_size=params["batch_size"])
         clustering.add_vectors(X)
 
         # Run clustering algorithm
@@ -98,7 +94,7 @@ def run(args: dict):
         params.update({"AMI": ami, "ARI": ari})
         stats = pd.DataFrame(params, index=[0])
         stats = stats[["dataset", "model", "sub_model", "lang", "AMI", "ARI", "threshold", "window", "batch_size", "remove_mentions", "hashtag_split"]]
-        print(stats[["model", "threshold", "AMI", "ARI"]].iloc[0])
+        print(stats[["sub_model", "threshold", "AMI", "ARI"]].iloc[0])
 
         try:
             results = pd.read_csv(METRICS_FILE)

@@ -5,12 +5,6 @@ sbert:
   remove_mentions : False
   window : 24
 
-tfidf_dataset :
-  save : False
-  threshold : 0.8
-  remove_mentions : False
-  window : 12
-
 standard :
 # these options are applied to all embeddings
   save : True # save features in the form of a .npy or .npz (for sparse vectors) file

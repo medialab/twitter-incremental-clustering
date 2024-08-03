@@ -7,6 +7,7 @@ df = pd.read_csv(METRICS_FILE)
 df = df.drop_duplicates()
 
 df["model"] = df.model.str.replace("_dataset", "")
+df["model"] = df.model.str.replace("sbert", "FSD-SBERT")
 df["dataset"] = df.dataset.str.replace(".tsv", "")
 
 idx = df.groupby(['dataset', 'model'])['ARI'].transform('max') == df["ARI"]
