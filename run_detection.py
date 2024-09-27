@@ -35,7 +35,7 @@ parser.add_argument(
 
 parser.add_argument("--window", required=False, type=int)
 
-parser.add_argument("--batch-size", required=False, type=int, nargs="+")
+parser.add_argument("--batch-size", required=False, type=int)
 
 parser.add_argument(
     "--sub-model",
@@ -54,7 +54,7 @@ def run(args: dict):
     with open("options.yaml", "r") as f:
         options = yaml.safe_load(f)
     for model in args["model"]:
-        matrix_start_time = datetime.now()
+        start_time = datetime.now()
         # load standard parameters
         params = dict(options["standard"])
         if model in options:
@@ -67,84 +67,76 @@ def run(args: dict):
                 params[arg] = args[arg]
 
         params["model"] = model
-        batch_sizes = params.pop("batch_size")
 
         # Create document embeddings
         X, data = build_matrix(**params)
-        matrix_end_time = datetime.now()
 
-        for b in batch_sizes:
-            prediction_start_time = datetime.now()
-            params["batch_size"] = b
-            # todo: improve window computation
-            params["window"] = int(
-                data.groupby("date").size().mean()
-                * params["window"]
-                / 24
-                // params["batch_size"]
-                * params["batch_size"]
-            )
+        # todo: improve window computation
+        params["window"] = int(
+            data.groupby("date").size().mean()
+            * params["window"]
+            / 24
+            // params["batch_size"]
+            * params["batch_size"]
+        )
 
-            clustering = ClusteringAlgo(
-                threshold=float(params["threshold"]),
-                window_size=params["window"],
-                batch_size=params["batch_size"],
-            )
-            clustering.add_vectors(X)
+        clustering = ClusteringAlgo(
+            threshold=float(params["threshold"]),
+            window_size=params["window"],
+            batch_size=params["batch_size"],
+        )
+        clustering.add_vectors(X.copy())
 
-            # Run clustering algorithm
-            y_pred = clustering.incremental_clustering()
-            prediction_end_time = datetime.now()
+        # Run clustering algorithm
+        y_pred = clustering.incremental_clustering()
+        end_time = datetime.now()
 
-            # Run evaluation
-            ami = adjusted_mutual_info_score(data.label, y_pred)
-            ari = adjusted_rand_score(data.label, y_pred)
+        # Run evaluation
+        ami = adjusted_mutual_info_score(data.label, y_pred)
+        ari = adjusted_rand_score(data.label, y_pred)
 
-            # Write detected labels to a csv file
-            filename = params["dataset"].replace(".", "_clustering_results.")
-            logging.info("Write predicted labels to {}".format(filename))
-            data["pred"] = y_pred
-            data[["id", "label", "pred"]].to_csv(
-                filename, index=False, sep="\t", quoting=csv.QUOTE_ALL
-            )
+        # Write detected labels to a csv file
+        filename = params["dataset"].replace(".", "_clustering_results.")
+        logging.info("Write predicted labels to {}".format(filename))
+        data["pred"] = y_pred
+        data[["id", "label", "pred"]].to_csv(
+            filename, index=False, sep="\t", quoting=csv.QUOTE_ALL
+        )
 
-            # Write evaluation metrics to a csv file
-            params.update(
-                {
-                    "AMI": ami,
-                    "ARI": ari,
-                    "time": matrix_end_time
-                    - matrix_start_time
-                    + prediction_end_time
-                    - prediction_start_time,
-                }
-            )
-            stats = pd.DataFrame(params, index=[0])
-            stats = stats[
-                [
-                    "dataset",
-                    "model",
-                    "sub_model",
-                    "lang",
-                    "AMI",
-                    "ARI",
-                    "time",
-                    "threshold",
-                    "window",
-                    "batch_size",
-                    "remove_mentions",
-                    "hashtag_split",
-                ]
+        # Write evaluation metrics to a csv file
+        params.update(
+            {
+                "AMI": ami,
+                "ARI": ari,
+                "seconds": (end_time - start_time).seconds,
+            }
+        )
+        stats = pd.DataFrame(params, index=[0])
+        stats = stats[
+            [
+                "dataset",
+                "model",
+                "sub_model",
+                "lang",
+                "AMI",
+                "ARI",
+                "seconds",
+                "threshold",
+                "window",
+                "batch_size",
+                "remove_mentions",
+                "hashtag_split",
             ]
-            print(stats[["sub_model", "threshold", "AMI", "ARI"]].iloc[0])
+        ]
+        print(stats[["sub_model", "threshold", "AMI", "ARI"]].iloc[0])
 
-            try:
-                results = pd.read_csv(METRICS_FILE)
-            except FileNotFoundError:
-                results = pd.DataFrame()
-            stats = pd.concat([results, stats], ignore_index=True)
-            stats.to_csv(METRICS_FILE, index=False)
-            logging.info("Saved results to {}".format(METRICS_FILE))
+        try:
+            results = pd.read_csv(METRICS_FILE)
+        except FileNotFoundError:
+            results = pd.DataFrame()
+        stats = pd.concat([results, stats], ignore_index=True)
+        stats.to_csv(METRICS_FILE, index=False)
+        logging.info("Saved results to {}".format(METRICS_FILE))
 
 
 if __name__ == "__main__":
