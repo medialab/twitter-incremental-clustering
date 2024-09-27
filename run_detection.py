@@ -1,5 +1,4 @@
-from twembeddings import build_matrix
-from twembeddings import ClusteringAlgo
+from twembeddings import build_matrix, ClusteringAlgo, cluster_event_match
 
 import csv
 import yaml
@@ -94,6 +93,7 @@ def run(args: dict):
         # Run evaluation
         ami = adjusted_mutual_info_score(data.label, y_pred)
         ari = adjusted_rand_score(data.label, y_pred)
+        p, r, f1 = cluster_event_match(data, y_pred)
 
         # Write detected labels to a csv file
         filename = params["dataset"].replace(".", "_clustering_results.")
@@ -108,6 +108,9 @@ def run(args: dict):
             {
                 "AMI": ami,
                 "ARI": ari,
+                "precision": p,
+                "recall": r,
+                "f1": f1,
                 "seconds": (end_time - start_time).seconds,
             }
         )
@@ -120,6 +123,9 @@ def run(args: dict):
                 "lang",
                 "AMI",
                 "ARI",
+                "precision",
+                "recall",
+                "f1",
                 "seconds",
                 "threshold",
                 "window",
@@ -128,7 +134,7 @@ def run(args: dict):
                 "hashtag_split",
             ]
         ]
-        print(stats[["sub_model", "threshold", "AMI", "ARI"]].iloc[0])
+        print(stats[["sub_model", "threshold", "AMI", "ARI", "f1"]].iloc[0])
 
         try:
             results = pd.read_csv(METRICS_FILE)
