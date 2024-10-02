@@ -1,1 +1,3 @@
 twembeddings==0.4.0
+protobuf==3.20.3
+matplotlib-label-lines==0.7.0
