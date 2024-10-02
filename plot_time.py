@@ -21,6 +21,7 @@ time_plot.grid()
 time_plot.scatter(time_plot_x, time_plot_y, label="Processing time", color="k")
 time_plot.plot(time_plot_x, time_plot_y, label="Processing time", color="k")
 time_plot.set_xticklabels([])
+time_plot.set_ylim(bottom=0)
 time_plot.set_ylabel("execution time (seconds)")
 
 
