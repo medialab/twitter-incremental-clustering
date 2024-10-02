@@ -9,6 +9,7 @@ This repository contains the Python code to reproduce the experiments presented 
 - [Preprocess data](#preprocess-data)
 - [Run event detection](#run-event-detection)
 - [Generate latex table](#generate-latex-table)
+- [Plot execution time](#plot-execution-time)
 
 ## Installation
 
@@ -57,10 +58,11 @@ python preprocess.py
 ```bash
 python generate_table.py
 ```
+The table is saved in `ami_ari_metrics.tex`
 
 ## Plot execution time
-After running the event detection several times with several --batch-size values, plot the change in AMI and execution time.
+After running the event detection several times with several --batch-size values, plot the effect of the parameter on AMI and execution time with the command:
 ```bash
 python plot_time.py
 ```
-![Change in execution time and performance of the algorithm depending on the batch size parameter](timeplot.png)
+The figure is saved in `timeplot.pdf`
