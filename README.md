@@ -57,3 +57,10 @@ python preprocess.py
 ```bash
 python generate_table.py
 ```
+
+## Plot execution time
+After running the event detection several times with several --batch-size values, plot the change in AMI and execution time.
+```bash
+python plot_time.py
+```
+![Change in execution time and performance of the algorithm depending on the batch size parameter](timeplot.png)
