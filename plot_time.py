@@ -8,6 +8,7 @@ df = pd.read_csv(METRICS_FILE)
 df = df.drop_duplicates()
 df = df[(df.threshold == 0.45) & (df.lang == "en")].sort_values("batch_size")
 
+plt.rcParams.update({"font.size": 13, "font.family": "serif"})
 
 fig, axes = plt.subplots(ncols=1, nrows=2, constrained_layout=True, figsize=(6, 8))
 
@@ -41,4 +42,4 @@ for metric in ["AMI"]:
 metrics_plot.set_ylabel("adjusted mutual information")
 metrics_plot.set_xlabel("batch size (number of documents)")
 
-plt.savefig("timeplot.png")
+plt.savefig("timeplot.pdf")
