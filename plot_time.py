@@ -10,7 +10,7 @@ df = df[(df.threshold == 0.45) & (df.lang == "en")].sort_values("batch_size")
 
 plt.rcParams.update({"font.size": 13, "font.family": "serif"})
 
-fig, axes = plt.subplots(ncols=1, nrows=2, constrained_layout=True, figsize=(6, 8))
+fig, axes = plt.subplots(ncols=1, nrows=2, constrained_layout=True, figsize=(7, 6))
 
 axes = axes.flatten()
 
